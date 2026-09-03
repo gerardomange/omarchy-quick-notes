@@ -3,7 +3,7 @@
   "id": "gmvs.quick-notes",
   "name": "Quick Notes",
   "version": "1.0.0",
-  "author": "gmvs",
+  "author": "Gerardo Mange",
   "license": "MIT",
   "description": "Instant scratchpad for quick notes, smart lists, and reminders",
   "kinds": [
@@ -18,7 +18,7 @@
   "barWidget": {
     "displayName": "Quick Notes",
     "description": "Quick notes and scratchpad launcher",
-    "category": "Plugin",
+    "category": "Productivity",
     "defaultSection": "right",
     "allowMultiple": false
   }
