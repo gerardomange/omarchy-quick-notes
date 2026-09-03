@@ -7,6 +7,11 @@
 
 set -euo pipefail
 
+OMARCHY_SHELL="/usr/share/omarchy/bin/omarchy-shell"
+if ! command -v "$OMARCHY_SHELL" >/dev/null 2>&1; then
+  OMARCHY_SHELL="omarchy-shell"
+fi
+
 NOTES_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/quick-notes.md"
 mkdir -p "$(dirname "$NOTES_FILE")"
 touch "$NOTES_FILE"
@@ -15,13 +20,13 @@ action="${1:-toggle}"
 
 case "$action" in
   toggle|--toggle)
-    omarchy-shell shell toggle gmvs.quick-notes '{}'
+    "$OMARCHY_SHELL" shell toggle gmvs.quick-notes '{}'
     ;;
   open|--open)
-    omarchy-shell shell summon gmvs.quick-notes '{}'
+    "$OMARCHY_SHELL" shell summon gmvs.quick-notes '{}'
     ;;
   close|--close)
-    omarchy-shell shell hide gmvs.quick-notes
+    "$OMARCHY_SHELL" shell hide gmvs.quick-notes
     ;;
   add)
     shift
@@ -42,7 +47,6 @@ case "$action" in
     echo "Usage: omarchy-quick-notes [open|close|toggle|add <text>|cat|edit]"
     ;;
   *)
-    # Default to toggle if unrecognized
-    omarchy-shell shell toggle gmvs.quick-notes '{}'
+    "$OMARCHY_SHELL" shell toggle gmvs.quick-notes '{}'
     ;;
 esac
