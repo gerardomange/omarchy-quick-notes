@@ -106,7 +106,7 @@ notes edit               # Edit notes file with $EDITOR
 - **Sandboxing & Scope**: Quick Notes is pure QML and JavaScript running within your local user session via `omarchy-shell`.
 - **Network Access**: None. The plugin operates 100% offline and makes zero network connections.
 - **Disk Access**: Reads and writes exclusively to its own note file at `~/.local/state/omarchy/quick-notes.md`.
-- **Privileges**: No root, `sudo`, or system-level permissions required.
+- **Privileges**: No elevated, administrative, or system-level permissions required.
 
 ## Requirements
 
