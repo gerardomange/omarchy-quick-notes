@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "gmvs.quick-notes",
+  "name": "Quick Notes",
+  "version": "1.0.0",
+  "author": "gmvs",
+  "license": "MIT",
+  "description": "Instant scratchpad for quick notes, smart lists, and reminders",
+  "kinds": [
+    "overlay",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "overlay": "QuickNotesOverlay.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Quick Notes",
+    "description": "Quick notes and scratchpad launcher",
+    "category": "Plugin",
+    "defaultSection": "right",
+    "allowMultiple": false
+  }
+}

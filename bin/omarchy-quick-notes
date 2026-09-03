@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# omarchy:summary=Open or toggle Quick Notes overlay scratchpad
+# omarchy:group=plugin
+# omarchy:args=[open|close|toggle|add <text>|cat|edit]
+# omarchy:examples=omarchy-quick-notes | omarchy-quick-notes add "Buy milk" | omarchy-quick-notes cat
+
+set -euo pipefail
+
+NOTES_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/quick-notes.md"
+mkdir -p "$(dirname "$NOTES_FILE")"
+touch "$NOTES_FILE"
+
+action="${1:-toggle}"
+
+case "$action" in
+  toggle|--toggle)
+    omarchy-shell shell toggle gmvs.quick-notes '{}'
+    ;;
+  open|--open)
+    omarchy-shell shell summon gmvs.quick-notes '{}'
+    ;;
+  close|--close)
+    omarchy-shell shell hide gmvs.quick-notes
+    ;;
+  add)
+    shift
+    if [[ $# -eq 0 ]]; then
+      echo "Usage: omarchy-quick-notes add <text...>" >&2
+      exit 1
+    fi
+    echo "$*" >> "$NOTES_FILE"
+    omarchy-notification-send -g "󰠮" "Quick Notes" "Added note: $*"
+    ;;
+  cat|show|list)
+    cat "$NOTES_FILE"
+    ;;
+  edit)
+    ${EDITOR:-nano} "$NOTES_FILE"
+    ;;
+  -h|--help)
+    echo "Usage: omarchy-quick-notes [open|close|toggle|add <text>|cat|edit]"
+    ;;
+  *)
+    # Default to toggle if unrecognized
+    omarchy-shell shell toggle gmvs.quick-notes '{}'
+    ;;
+esac
