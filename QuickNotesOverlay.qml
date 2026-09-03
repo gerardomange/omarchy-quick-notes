@@ -29,8 +29,9 @@ Item {
   readonly property int cornerRadius: Style.cornerRadius
   readonly property int contentMargin: Style.spacing.panelPadding
 
-  readonly property int cardWidth: Math.min(Style.space(720), panel.width - Style.gapsOut * 2)
-  readonly property int cardHeight: Math.min(Style.space(560), panel.height - Style.gapsOut * 2)
+  readonly property int cardWidth: Math.min(Style.space(780), panel.width - Style.gapsOut * 2)
+  readonly property int cardHeight: Math.min(Style.space(580), panel.height - Style.gapsOut * 2)
+
 
   function open(payloadJson) {
     root.opened = true
@@ -186,9 +187,11 @@ Item {
 
         // ------------------------------------------------ Header
         Row {
+          id: headerRow
           width: parent.width
           height: Style.space(34)
           spacing: Style.space(10)
+
 
           // Left: App Icon & Title
           Row {
@@ -339,6 +342,7 @@ Item {
 
         // Divider
         PanelSeparator {
+          id: sep1
           width: parent.width
           strength: 0.15
         }
@@ -347,7 +351,8 @@ Item {
         Item {
           id: editorContainer
           width: parent.width
-          height: card.height - card.contentTopInset - card.contentBottomInset - Style.space(34) - Style.space(28) - Style.space(36)
+          height: Math.max(Style.space(120), parent.height - headerRow.height - footerRow.height - sep1.height - sep2.height - (parent.spacing * 4))
+
 
           Flickable {
             id: flickable
@@ -484,34 +489,21 @@ Item {
 
         // Divider
         PanelSeparator {
+          id: sep2
           width: parent.width
           strength: 0.12
         }
 
         // ------------------------------------------------ Footer Status Bar
-        Row {
+        Item {
+          id: footerRow
           width: parent.width
-          height: Style.space(18)
+          height: Style.space(20)
 
-          // Keyboard shortcut hints
-          Text {
-            anchors.verticalCenter: parent.verticalCenter
-            textFormat: Text.PlainText
-            text: "Esc: Close   ·   Enter: List Item   ·   Tab: Indent   ·   Ctrl+D: Checkbox   ·   Ctrl+R: Remind"
-            font.family: root.fontFamily
-            font.pixelSize: Style.font.caption
-            color: Color.muted
-          }
-
-          // Spacer
-          Item {
-            width: Math.max(0, parent.width - parent.children[0].implicitWidth - statsLabel.implicitWidth)
-            height: 1
-          }
-
-          // Stats (lines, words, checklist items)
+          // Stats (lines, words, checklist items) anchored directly to the right
           Text {
             id: statsLabel
+            anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             textFormat: Text.PlainText
             text: root.statsText
@@ -520,7 +512,23 @@ Item {
             font.bold: true
             color: Color.muted
           }
+
+          // Keyboard shortcut hints filling available width with clean eliding
+          Text {
+            anchors.left: parent.left
+            anchors.right: statsLabel.left
+            anchors.rightMargin: Style.space(12)
+            anchors.verticalCenter: parent.verticalCenter
+            textFormat: Text.PlainText
+            text: "Esc: Close   ·   Enter: List   ·   Tab: Indent   ·   Ctrl+D: Task   ·   Ctrl+R: Remind"
+            font.family: root.fontFamily
+            font.pixelSize: Style.font.caption
+            color: Color.muted
+            elide: Text.ElideRight
+          }
+
         }
+
       }
     }
   }
